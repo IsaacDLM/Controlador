@@ -11,20 +11,29 @@ final class TareaController extends AbstractController
     #[Route('/tarea/{miembro}', name: 'app_tarea')]
     public function index(string $miembro): Response
     {
-        $miembros = ['Isaac', 'Carlos', 'Anna', 'Nicole'];
-        $tareas = ['Isaac - Limpiar la casa', 'Anna - Hacer la compra', 'Carlos - Sacar la basura', 'Nicole - Cocinar la cena'];
+        $miembros = ['Isaac', 'Anna', 'Claudia', 'Nicole'];
+        $tareas = [
+            'Isaac' => ['Estudiar symfony para el examen'],
+            'Anna' => ['Preparar la clase de matematicas'],
+            'Claudia' => ['Repasar la unidad 4 del libro de Ingles'],
+            'Nicole' => ['Enviar el inventario del mes'],
+        ];
 
-        if (!in_array($miembro, $miembros)) {
-            $respuesta = $this->json(['error' => 'Acceso denegado'], Response::HTTP_NOT_FOUND);
-        }else {
-            $tareasMiembro = [];
-            foreach ($tareas as $tarea) {
-                if (strpos($tarea, $miembro) === 0) {
-                    $tareasMiembro[] = $tarea;
-                }
+        $autorizado = false;
+        foreach ($miembros as $personas ) {
+            if ($personas === $miembro) {
+                $autorizado = true;
             }
-            $respuesta = $this->json(['tareas' => $tareasMiembro]);
         }
-        return $respuesta;
+        if($autorizado) {
+            $mensaje = "Tareas de {$miembro}<br>";
+            foreach ($tareas[$miembro] as $tarea) {
+                $mensaje .= " {$tarea}<br>";
+            }
+            $respuesta = new Response($mensaje);
+        }else{
+            $respuesta = new Response("Aceeso denegado");
+        }
+            return $respuesta;
     }
 }
