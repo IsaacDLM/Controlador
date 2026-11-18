@@ -26,13 +26,12 @@ final class TareaController extends AbstractController
             }
         }
         if($autorizado) {
-            $mensaje = "Tareas de {$miembro}<br>";
-            foreach ($tareas[$miembro] as $tarea) {
-                $mensaje .= " {$tarea}<br>";
-            }
-            $respuesta = new Response($mensaje);
-        }else{
-            $respuesta = new Response("Aceeso denegado");
+            $respuesta = $this->render('tarea/index.html.twig', [
+                'miembro' => $miembro,
+                'tareas' => $tareas[$miembro],
+            ]);
+        } else {
+            $respuesta = new Response("Acceso denegado");
         }
             return $respuesta;
     }

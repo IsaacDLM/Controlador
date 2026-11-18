@@ -1,12 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {% if autorizado %}
-        Tareas de {{ miembro }}
-    {% else %}
-        Acceso denegado
-    {% endif %}
-{% endblock %}
+{% block title %}Tareas de {{ miembro }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -14,23 +8,12 @@
 {% endblock %}
 
 {% block body %}
-    <main class="contenedor">
-        {% if autorizado %}
-            <section class="tarjeta">
-                <h1>Tareas asignadas a {{ miembro }}</h1>
-                <ul class="lista-tareas">
-                    {% for tarea in tareas %}
-                        <li>{{ tarea }}</li>
-                    {% else %}
-                        <li class="sin-tareas">Este miembro no tiene tareas pendientes.</li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% else %}
-            <section class="tarjeta tarjeta-error">
-                <h1>403 · Acceso denegado</h1>
-                <p>El usuario <strong>{{ miembro }}</strong> no tiene permisos para consultar tareas.</p>
-            </section>
-        {% endif %}
+    <main class="contenedor-principal">
+        <h1 class="miembro">Tarea para {{ miembro }}</h1>
+        <ul class="contenedor-tarea">
+            {% for tarea in tareas %}
+                <li class="tarea">{{ tarea }}</li>
+            {% endfor %}
+        </ul>
     </main>
 {% endblock %}
